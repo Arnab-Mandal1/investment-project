@@ -77,7 +77,6 @@ const investmentSchema = new mongoose.Schema(
         // Auto-calculated in pre-save: startDate + durationDays
         endDate: {
             type: Date,
-            required: true,
         },
 
         // Running total of ROI paid out against this investment
@@ -104,13 +103,12 @@ investmentSchema.index({ user: 1, status: 1 });
 investmentSchema.index({ status: 1, endDate: 1 });
 
 // ─── Pre-save Hook: Auto-calculate endDate ────────────────────────────────────
-investmentSchema.pre('save', function (next) {
+investmentSchema.pre('save', function () {
     if (this.isNew) {
         const start = new Date(this.startDate);
         start.setDate(start.getDate() + this.plan.durationDays);
         this.endDate = start;
     }
-    next();
 });
 
 // ─── Static Method: Get plan config by planId ─────────────────────────────────

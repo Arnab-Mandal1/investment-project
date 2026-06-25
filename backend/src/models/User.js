@@ -77,26 +77,18 @@ const userSchema = new mongoose.Schema(
 // Fast lookup when building referral tree
 userSchema.index({ referredBy: 1 });
 
-// ─── Pre-save Hook: Hash password ─────────────────────────────────────────────
-userSchema.pre('save', async function (next) {
-    // Only hash if password was changed — not on every save
-    if (!this.isModified('password')) return next();
-
-    try {
-        const salt = await bcrypt.genSalt(10);
-        this.password = await bcrypt.hash(this.password, salt);
-        next();
-    } catch (error) {
-        next(error);
-    }
-});
-
-// ─── Pre-save Hook: Auto-generate referral code for new users ─────────────────
-userSchema.pre('save', function (next) {
+/// ─── Pre-save Hook: Hash password + generate referral code ───────────────────
+userSchema.pre('save', async function () {
+    // Auto-generate referral code for new users
     if (this.isNew && !this.referralCode) {
         this.referralCode = generateReferralCode();
     }
-    next();
+
+    // Only hash if password was changed
+    if (!this.isModified('password')) return;
+
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
 });
 
 // ─── Instance Method: Compare password on login ───────────────────────────────
