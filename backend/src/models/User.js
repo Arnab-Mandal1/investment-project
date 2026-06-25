@@ -74,9 +74,6 @@ const userSchema = new mongoose.Schema(
     }
 );
 
-// ─── Indexes ─────────────────────────────────────────────────────────────────
-// Fast lookup when a new user registers with a referral code
-userSchema.index({ referralCode: 1 });
 // Fast lookup when building referral tree
 userSchema.index({ referredBy: 1 });
 
