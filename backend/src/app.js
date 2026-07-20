@@ -35,6 +35,19 @@ app.get('/api/health', (req, res) => {
     });
 });
 
+// ─── Manual ROI Trigger (Development only) ────────────────────────────────────
+if (process.env.NODE_ENV === 'development') {
+    app.get('/api/trigger-roi', async (req, res) => {
+        try {
+            const { triggerManualROI } = require('./services/cronService');
+            const results = await triggerManualROI();
+            res.status(200).json({ success: true, results });
+        } catch (error) {
+            res.status(500).json({ success: false, message: error.message });
+        }
+    });
+}
+
 // ─── API Routes ───────────────────────────────────────────────────────────────
 app.use('/api/auth', authRoutes);
 app.use('/api/investments', investmentRoutes);

@@ -1,17 +1,19 @@
 const app = require('./app');
 const connectDB = require('./config/db');
 const env = require('./config/env');
+const { startCronJobs } = require('./services/cronService');
 
-// ─── Start Server ─────────────────────────────────────────────────────────────
 const startServer = async () => {
     try {
         await connectDB();
+
+        // Start cron jobs after DB is connected
+        startCronJobs();
 
         const server = app.listen(env.PORT, () => {
             console.log(`Server running in ${env.NODE_ENV} mode on port ${env.PORT}`);
             console.log(`Health check: http://localhost:${env.PORT}/api/health`);
         });
-
 
         process.on('SIGTERM', () => {
             console.log('SIGTERM received. Shutting down gracefully...');
