@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        @apply bg-ink text-ink-text font-sans antialiased;
+    }
+
+    ::selection {
+        @apply bg-gold/30 text-ink-text;
+    }
+
+    /* Ledger-style hairline rule, used throughout */
+    .rule {
+        @apply border-t border-white/10;
+    }
+
+    /* Tabular figures for all money values */
+    .tabular {
+        @apply font-mono tabular-nums;
+    }
+}
+
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
+}
