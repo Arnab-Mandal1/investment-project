@@ -247,7 +247,9 @@ const DashboardPage = () => {
                             {recentROIHistory.map((record) => (
                                 <div key={record._id} className="px-6 py-4 flex items-center justify-between hover:bg-surface-raised transition-colors">
                                     <div>
-                                        <p className="text-sm font-medium text-ink-text">Daily ROI</p>
+                                        <p className="text-sm font-medium text-ink-text">
+                                            {record.investment?.plan?.planName || 'Daily ROI'}
+                                        </p>
                                         <p className="text-xs text-muted mt-0.5">{formatDate(record.creditedDate)}</p>
                                     </div>
                                     <div className="text-right">
