@@ -208,7 +208,7 @@ const InvestmentsPage = () => {
                 {[
                     { label: 'Total Investments', value: investments.length },
                     { label: 'Active', value: investments.filter(i => i.status === 'Active').length },
-                    { label: 'Total Invested', value: formatCurrency(investments.reduce((s, i) => s + i.amount, 0)) },
+                    { label: 'Total Invested', value: formatCurrency(investments.reduce((s, i) => s + i.amount, 0), true) },
                 ].map((stat) => (
                     <div key={stat.label} className="bg-surface rounded-2xl p-4 border border-white/5 text-center">
                         <p className="font-display text-2xl font-semibold text-ink-text">{stat.value}</p>
@@ -264,15 +264,15 @@ const InvestmentsPage = () => {
                                         <p className="text-xs text-muted">{inv.plan.dailyROIPercentage}% / day</p>
                                     </td>
                                     <td className="px-6 py-4 text-sm font-mono font-semibold text-ink-text">
-                                        {formatCurrency(inv.amount)}
+                                        {formatCurrency(inv.amount,true)}
                                     </td>
                                     <td className="px-6 py-4 text-sm font-mono text-emerald">
-                                        +{formatCurrency(inv.amount * (inv.plan.dailyROIPercentage / 100))}
+                                        +{formatCurrency(inv.amount * (inv.plan.dailyROIPercentage / 100),true)}
                                     </td>
                                     <td className="px-6 py-4 text-sm text-muted">{formatDate(inv.startDate)}</td>
                                     <td className="px-6 py-4 text-sm text-muted">{formatDate(inv.endDate)}</td>
                                     <td className="px-6 py-4 text-sm font-mono text-gold">
-                                        {formatCurrency(inv.totalROIPaid)}
+                                        {formatCurrency(inv.totalROIPaid,true)}
                                     </td>
                                     <td className="px-6 py-4">
                                         <Badge status={inv.status} />
