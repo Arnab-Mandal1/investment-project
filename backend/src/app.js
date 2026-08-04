@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 // Enable CORS — allows frontend (port 3000) to call backend (port 5000)
 app.use(cors({
     origin: process.env.NODE_ENV === 'production'
-        ? process.env.FRONTEND_URL
+        ? [process.env.FRONTEND_URL, 'https://investment-project-six.vercel.app']
         : ['http://localhost:3000', 'http://localhost:5173'],
     credentials: true,
 }));
