@@ -1,6 +1,26 @@
-# Pro Investment — MERN Stack Assessment
+# Pro Investment — MERN Stack project
 
-A full-stack investment and referral platform built with the MERN Stack (MongoDB, Express.js, React.js, Node.js).
+A full-stack investment and referral platform built with the MERN Stack (MongoDB, Express.js, React.js, Node.js)
+
+---
+
+## Live Demo
+
+| | URL |
+|---|---|
+| **Frontend** | https://investment-project-six.vercel.app |
+| **Backend API** | https://investment-project-3rxk.onrender.com |
+| **Health Check** | https://investment-project-3rxk.onrender.com/api/health |
+
+> **Note:** Backend is hosted on Render free tier. First request after inactivity may take 30-50 seconds to wake up. Subsequent requests are fast.
+
+### Deployment Stack
+
+| Layer | Platform | Details |
+|---|---|---|
+| Frontend | Vercel | Auto-deploys on push to main |
+| Backend | Render | Auto-deploys on push to main |
+| Database | MongoDB Atlas | Free tier, M0 cluster |
 
 ---
 
@@ -9,22 +29,84 @@ A full-stack investment and referral platform built with the MERN Stack (MongoDB
 ```
 investment-project/
 ├── backend/
-│   └── src/
-│       ├── config/
-│       ├── controllers/
-│       ├── middleware/
-│       ├── models/
-│       ├── routes/
-│       ├── services/
-│       └── utils/
+│   ├── src/
+│   │   ├── config/
+│   │   │   ├── db.js
+│   │   │   └── env.js
+│   │   ├── controllers/
+│   │   │   ├── authController.js
+│   │   │   ├── dashboardController.js
+│   │   │   ├── investmentController.js
+│   │   │   └── referralController.js
+│   │   ├── middleware/
+│   │   │   ├── authMiddleware.js
+│   │   │   ├── errorHandler.js
+│   │   │   └── validate.js
+│   │   ├── models/
+│   │   │   ├── Investment.js
+│   │   │   ├── ReferralIncome.js
+│   │   │   ├── ROIHistory.js
+│   │   │   └── User.js
+│   │   ├── routes/
+│   │   │   ├── auth.js
+│   │   │   ├── dashboard.js
+│   │   │   ├── investment.js
+│   │   │   └── referral.js
+│   │   ├── services/
+│   │   │   ├── cronService.js
+│   │   │   ├── referralService.js
+│   │   │   └── roiService.js
+│   │   ├── utils/
+│   │   │   ├── apiResponse.js
+│   │   │   └── generateReferralCode.js
+│   │   ├── app.js
+│   │   └── server.js
+│   ├── .env.example
+│   └── package.json
 ├── frontend/
-│   └── src/
-│       ├── components/
-│       ├── context/
-│       ├── pages/
-│       ├── services/
-│       └── utils/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── layout/
+│   │   │   │   ├── Layout.jsx
+│   │   │   │   └── Navbar.jsx
+│   │   │   └── ui/
+│   │   │       ├── Badge.jsx
+│   │   │       ├── CountUp.jsx
+│   │   │       ├── EmptyState.jsx
+│   │   │       ├── Spinner.jsx
+│   │   │       └── StatCard.jsx
+│   │   ├── context/
+│   │   │   └── AuthContext.jsx
+│   │   ├── pages/
+│   │   │   ├── DashboardPage.jsx
+│   │   │   ├── InvestmentsPage.jsx
+│   │   │   ├── LandingPage.jsx
+│   │   │   ├── LoginPage.jsx
+│   │   │   ├── ReferralsPage.jsx
+│   │   │   └── RegisterPage.jsx
+│   │   ├── services/
+│   │   │   ├── api.js
+│   │   │   ├── authService.js
+│   │   │   ├── dashboardService.js
+│   │   │   ├── investmentService.js
+│   │   │   └── referralService.js
+│   │   ├── utils/
+│   │   │   ├── formatCurrency.js
+│   │   │   └── formatDate.js
+│   │   ├── App.jsx
+│   │   ├── index.css
+│   │   └── main.jsx
+│   ├── .env.example
+│   ├── index.html
+│   ├── package.json
+│   ├── postcss.config.js
+│   ├── tailwind.config.js
+│   ├── vercel.json
+│   └── vite.config.js
 ├── postman_collection.json
+├── .gitignore
+├── package.json
 └── README.md
 ```
 
@@ -36,9 +118,10 @@ investment-project/
 |---|---|
 | Backend | Node.js, Express.js v4 |
 | Database | MongoDB Atlas, Mongoose |
-| Auth | JWT, bcryptjs v2.4.3 |
+| Authentication | JWT (jsonwebtoken), bcryptjs v2.4.3 |
 | Scheduler | node-cron |
-| Frontend | React 19, Vite, Tailwind CSS |
+| Frontend | React 19, Vite |
+| Styling | Tailwind CSS |
 | Charts | Recharts |
 | HTTP Client | Axios |
 
@@ -47,6 +130,7 @@ investment-project/
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js >= 18
 - MongoDB Atlas account
 - Git
@@ -54,7 +138,7 @@ investment-project/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/investment-project.git
+git clone https://github.com/Arnab-Mandal1/investment-project.git
 cd investment-project
 ```
 
@@ -119,7 +203,10 @@ cd frontend && npm run dev
 
 ## API Documentation
 
-### Base URL: `http://localhost:5000/api`
+### Base URL
+
+- Local: `http://localhost:5000/api`
+- Production: `https://investment-project-3rxk.onrender.com/api`
 
 All protected routes require: `Authorization: Bearer <token>`
 
@@ -165,6 +252,23 @@ All protected routes require: `Authorization: Bearer <token>`
 {
   "email": "arnab@gmail.com",
   "password": "MyPass123"
+}
+```
+
+**POST /auth/login — Response:**
+```json
+{
+  "success": true,
+  "message": "Login successful.",
+  "data": {
+    "token": "eyJhbGci...",
+    "user": {
+      "id": "...",
+      "fullName": "Arnab Mandal",
+      "walletBalance": 50,
+      "referralCode": "O0CDF0EW"
+    }
+  }
 }
 ```
 
@@ -239,6 +343,45 @@ All protected routes require: `Authorization: Bearer <token>`
 | GET | `/referral/direct` | Yes | Get direct referrals |
 | GET | `/referral/tree` | Yes | Get full referral tree |
 
+**GET /referral/direct — Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "count": 1,
+    "referrals": [
+      {
+        "id": "...",
+        "fullName": "Rahul Sharma",
+        "email": "rahul@gmail.com",
+        "referralCode": "7IH8LUPH",
+        "totalInvested": 0,
+        "accountStatus": "Active",
+        "joinedAt": "2026-06-25T20:15:04.126Z"
+      }
+    ]
+  }
+}
+```
+
+**GET /referral/tree — Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "tree": [
+      {
+        "id": "...",
+        "fullName": "Rahul Sharma",
+        "level": 1,
+        "children": []
+      }
+    ],
+    "levelIncomeSummary": []
+  }
+}
+```
+
 ### Development Only
 
 | Method | Endpoint | Auth | Description |
@@ -254,7 +397,7 @@ All protected routes require: `Authorization: Bearer <token>`
 | Basic | ₹1,000 – ₹9,999 | 1.0% | 90 days |
 | Silver | ₹10,000 – ₹49,999 | 1.5% | 90 days |
 | Gold | ₹50,000 – ₹1,99,999 | 2.0% | 90 days |
-| Platinum | ₹2,00,000+ | 2.5% | 90 days |
+| Platinum | ₹2,00,000 – ₹1,00,00,000 | 2.5% | 90 days |
 
 ---
 
@@ -285,3 +428,5 @@ All protected routes require: `Authorization: Bearer <token>`
 11. **Frontend port** — Vite dev server runs on port 5173. CORS is configured for both port 3000 and 5173.
 12. **bcryptjs version** — Downgraded to v2.4.3 for compatibility with Mongoose v9 async pre-save hooks.
 13. **Express version** — Using v4.19.2 for stability. Express v5 has breaking changes that conflict with standard middleware patterns.
+14. **Maximum investment** — Maximum investment per transaction is ₹1,00,00,000 (1 Crore). Enforced at frontend input, route validation, and database schema level.
+15. **SPA routing** — `vercel.json` rewrite rules added to handle React Router client-side routing on page refresh.
