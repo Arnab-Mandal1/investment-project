@@ -35,18 +35,23 @@ app.get('/api/health', (req, res) => {
     });
 });
 
-// ─── Manual ROI Trigger (Development only) ────────────────────────────────────
-if (process.env.NODE_ENV === 'development') {
-    app.get('/api/trigger-roi', async (req, res) => {
-        try {
-            const { triggerManualROI } = require('./services/cronService');
-            const results = await triggerManualROI();
-            res.status(200).json({ success: true, results });
-        } catch (error) {
-            res.status(500).json({ success: false, message: error.message });
-        }
-    });
-}
+// ─── Manual ROI Trigger (Secret-token protected) ──────────────────────────────
+app.get('/api/trigger-roi', async (req, res) => {
+    const secret = req.query.secret || req.headers['x-trigger-secret'];
+    const expectedSecret = process.env.ROI_TRIGGER_SECRET;
+
+    if (!expectedSecret || secret !== expectedSecret) {
+        return res.status(403).json({ success: false, message: 'Forbidden' });
+    }
+
+    try {
+        const { triggerManualROI } = require('./services/cronService');
+        const results = await triggerManualROI();
+        res.status(200).json({ success: true, results });
+    } catch (error) {
+        res.status(500).json({ success: false, message: error.message });
+    }
+});
 
 // ─── API Routes ───────────────────────────────────────────────────────────────
 app.use('/api/auth', authRoutes);
