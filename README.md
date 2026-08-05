@@ -192,6 +192,9 @@ cd frontend && npm run dev
 | `JWT_EXPIRES_IN` | Token expiry | `7d` |
 | `MAX_REFERRAL_LEVELS` | Referral depth | `5` |
 | `CRON_SCHEDULE` | Cron expression | `0 0 * * *` |
+| `ROI_TRIGGER_SECRET` | Secret token to protect manual ROI trigger | `any-strong-random-string` |
+
+> **Note:** `ROI_TRIGGER_SECRET` is required in **all environments** (local and production). Without it, `/api/trigger-roi` always returns 403.
 
 ### Frontend (`frontend/.env`)
 
@@ -382,12 +385,13 @@ All protected routes require: `Authorization: Bearer <token>`
 }
 ```
 
-### Development Only
+### Manual ROI Trigger
 
 | Method | Endpoint | Auth | Description |
 |---|---|---|---|
-| GET | `/trigger-roi` | No | Manually trigger ROI cron |
+| GET | `/trigger-roi?secret=<ROI_TRIGGER_SECRET>` | Secret token | Manually trigger ROI cron job |
 
+> **Note:** Protected by `ROI_TRIGGER_SECRET` environment variable. Pass the secret as a query param `?secret=your_secret` or as a header `x-trigger-secret: your_secret`. Available in all environments.
 ---
 
 ## Investment Plans
