@@ -25,7 +25,7 @@ const INVESTMENT_PLANS = {
     platinum: {
         name: 'Platinum Plan',
         minAmount: 200000,
-        maxAmount: Infinity,
+        maxAmount: 10000000,
         dailyROIPercentage: 2.5,
         durationDays: 90,
     },
@@ -45,6 +45,7 @@ const investmentSchema = new mongoose.Schema(
             type: Number,
             required: [true, 'Investment amount is required'],
             min: [1000, 'Minimum investment amount is ₹1,000'],
+            max: [10000000, 'Maximum investment amount is ₹1,00,00,000'],
         },
 
         // Snapshot of plan at time of investment

@@ -12,7 +12,7 @@ const PLANS = [
     { id: 'basic', name: 'Basic', range: '₹1K – ₹9,999', min: 1000, max: 9999, roi: 1.0, color: 'text-muted', border: 'border-white/10' },
     { id: 'silver', name: 'Silver', range: '₹10K – ₹49,999', min: 10000, max: 49999, roi: 1.5, color: 'text-ink-text', border: 'border-white/10' },
     { id: 'gold', name: 'Gold', range: '₹50K – ₹1,99,999', min: 50000, max: 199999, roi: 2.0, color: 'text-gold', border: 'border-gold/30', popular: true },
-    { id: 'platinum', name: 'Platinum', range: '₹2L+', min: 200000, max: Infinity, roi: 2.5, color: 'text-emerald', border: 'border-emerald/20' },
+    { id: 'platinum', name: 'Platinum', range: '₹2L - ₹1Cr', min: 200000, max: 10000000, roi: 2.5, color: 'text-emerald', border: 'border-emerald/20' },
 ];
 
 // ─── Create Investment Modal ──────────────────────────────────────────────────
@@ -95,7 +95,7 @@ const CreateInvestmentModal = ({ onClose, onSuccess }) => {
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <label className="block text-xs font-semibold uppercase tracking-widest text-muted mb-2">
-                            Investment Amount (₹)
+                            Investment Amount (₹1,000 – ₹1,00,00,000)
                         </label>
                         <input
                             type="number"
@@ -103,6 +103,7 @@ const CreateInvestmentModal = ({ onClose, onSuccess }) => {
                             onChange={(e) => { setAmount(e.target.value); setError(''); }}
                             placeholder="e.g. 5000"
                             min="1000"
+                            max="10000000"
                             required
                             className="w-full bg-ink border border-white/10 rounded-xl px-4 py-3 text-ink-text placeholder-muted/50 focus:outline-none focus:border-gold/50 transition-all duration-200 text-sm font-mono"
                         />

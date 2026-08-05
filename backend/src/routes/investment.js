@@ -20,6 +20,9 @@ router.post(
                 if (value < 1000) {
                     throw new Error('Minimum investment amount is ₹1,000');
                 }
+                if (value > 10000000) {
+                    throw new Error('Maximum investment amount is ₹1,00,00,000 (1 Crore)');
+                }
                 return true;
             }),
     ],

@@ -16,7 +16,7 @@ const createInvestment = async (req, res, next) => {
             return errorResponse(
                 res,
                 400,
-                'Investment amount does not match any available plan. Minimum investment is ₹1,000.'
+                'Investment amount does not match any available plan. between ₹1,000 and ₹1,00,00,000.'
             );
         }
 
