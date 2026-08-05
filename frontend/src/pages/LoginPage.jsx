@@ -59,7 +59,7 @@ const LoginPage = () => {
 
                 {/* Center content */}
                 <div className="relative">
-                    <div className="inline-flex items-center gap-2 bg-gold/10 border border-gold/20 rounded-full px-3 py-1 mb-6">
+                    <div className="inline-flex items-center gap-2 bg-gold/10 border border-gold/20 rounded-full px-3 py-1 mb-6 mt-1">
                         <div className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
                         <span className="text-gold text-xs font-semibold uppercase tracking-widest">
               Live Platform
@@ -89,7 +89,7 @@ const LoginPage = () => {
                 </div>
 
                 {/* Bottom testimonial */}
-                <div className="relative bg-surface-raised rounded-2xl p-4 border border-white/5">
+                <div className="relative bg-surface-raised rounded-2xl p-4 mt-1 border border-white/5">
                     <p className="text-sm text-ink-text mb-2">
                         "Earning ₹1,500 daily from my ₹60,000 investment. The referral income is a bonus."
                     </p>
