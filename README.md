@@ -1,6 +1,6 @@
-# Pro Investment — MERN Stack project
+# Pro Investment — MERN Stack Project
 
-A full-stack investment and referral platform built with the MERN Stack (MongoDB, Express.js, React.js, Node.js)
+A full-stack investment and referral platform built with the MERN Stack (MongoDB, Express.js, React.js, Node.js).
 
 ---
 
