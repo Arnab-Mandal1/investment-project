@@ -1,3 +1,5 @@
+import LoadingScreen from './LoadingScreen';
+
 const Spinner = ({ size = 'md', className = '' }) => {
     const sizes = {
         sm: 'w-4 h-4 border-2',
@@ -10,13 +12,6 @@ const Spinner = ({ size = 'md', className = '' }) => {
     );
 };
 
-export const FullPageSpinner = () => (
-    <div className="min-h-screen bg-ink flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-            <Spinner size="lg" />
-            <p className="text-muted text-sm">Loading...</p>
-        </div>
-    </div>
-);
+export const FullPageSpinner = () => <LoadingScreen />;
 
 export default Spinner;
