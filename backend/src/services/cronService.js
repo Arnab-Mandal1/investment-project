@@ -29,6 +29,8 @@ const startCronJobs = () => {
     }, {
         // Run in Indian Standard Time (UTC+5:30)
         timezone: 'Asia/Kolkata',
+        scheduled: true,
+        recoverMissedExecutions: true,
     });
 
     console.log(`Cron job scheduled: ${env.CRON_SCHEDULE} (Asia/Kolkata)`);
