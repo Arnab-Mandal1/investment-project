@@ -54,6 +54,7 @@ investment-project/
 │   │   │   └── referral.js
 │   │   ├── services/
 │   │   │   ├── cronService.js
+│   │   │   ├── emailService.js
 │   │   │   ├── referralService.js
 │   │   │   └── roiService.js
 │   │   ├── utils/
@@ -80,11 +81,13 @@ investment-project/
 │   │   │   └── AuthContext.jsx
 │   │   ├── pages/
 │   │   │   ├── DashboardPage.jsx
+│   │   │   ├── ForgotPasswordPage.jsx
 │   │   │   ├── InvestmentsPage.jsx
 │   │   │   ├── LandingPage.jsx
 │   │   │   ├── LoginPage.jsx
 │   │   │   ├── ReferralsPage.jsx
-│   │   │   └── RegisterPage.jsx
+│   │   │   ├── RegisterPage.jsx
+│   │   │   └── ResetPasswordPage.jsx
 │   │   ├── services/
 │   │   │   ├── api.js
 │   │   │   ├── authService.js
@@ -120,6 +123,7 @@ investment-project/
 | Database | MongoDB Atlas, Mongoose |
 | Authentication | JWT (jsonwebtoken), bcryptjs v2.4.3 |
 | Scheduler | node-cron |
+| Email | Brevo (@getbrevo/brevo) |
 | Frontend | React 19, Vite |
 | Styling | Tailwind CSS |
 | Charts | Recharts |
@@ -133,6 +137,7 @@ investment-project/
 
 - Node.js >= 18
 - MongoDB Atlas account
+- Brevo account (for email)
 - Git
 
 ### 1. Clone the repository
@@ -160,7 +165,7 @@ cd ../frontend && npm install
 ```bash
 # Backend
 cp backend/.env.example backend/.env
-# Fill in your MongoDB URI and JWT secret
+# Fill in your values
 
 # Frontend
 cp frontend/.env.example frontend/.env
@@ -192,9 +197,13 @@ cd frontend && npm run dev
 | `JWT_EXPIRES_IN` | Token expiry | `7d` |
 | `MAX_REFERRAL_LEVELS` | Referral depth | `5` |
 | `CRON_SCHEDULE` | Cron expression | `0 0 * * *` |
-| `ROI_TRIGGER_SECRET` | Secret token to protect manual ROI trigger | `any-strong-random-string` |
+| `ROI_TRIGGER_SECRET` | Secret for manual ROI trigger | `any-strong-random-string` |
+| `BREVO_API_KEY` | Brevo API key for transactional email | `xkeysib-...` |
+| `FRONTEND_URL` | Frontend base URL for email reset links | `http://localhost:5173` |
 
-> **Note:** `ROI_TRIGGER_SECRET` is required in **all environments** (local and production). Without it, `/api/trigger-roi` always returns 403.
+> **Note:** `ROI_TRIGGER_SECRET` is required in all environments. Without it, `/api/trigger-roi` always returns 403.
+
+> **Note:** `FRONTEND_URL` should be `http://localhost:5173` locally and `https://investment-project-six.vercel.app` on Render.
 
 ### Frontend (`frontend/.env`)
 
@@ -219,6 +228,8 @@ All protected routes require: `Authorization: Bearer <token>`
 |---|---|---|---|
 | POST | `/auth/register` | No | Register new user |
 | POST | `/auth/login` | No | Login, returns JWT |
+| POST | `/auth/forgot-password` | No | Send password reset email |
+| POST | `/auth/reset-password` | No | Reset password using token from email |
 
 **POST /auth/register — Request:**
 ```json
@@ -272,6 +283,39 @@ All protected routes require: `Authorization: Bearer <token>`
       "referralCode": "O0CDF0EW"
     }
   }
+}
+```
+
+**POST /auth/forgot-password — Request:**
+```json
+{
+  "email": "arnab@gmail.com"
+}
+```
+
+**POST /auth/forgot-password — Response:**
+```json
+{
+  "success": true,
+  "message": "If that email exists, a reset link has been sent."
+}
+```
+
+> **Note:** Always returns the same message whether or not the email exists — prevents email enumeration attacks.
+
+**POST /auth/reset-password — Request:**
+```json
+{
+  "token": "raw_token_from_email_link",
+  "newPassword": "NewPass123"
+}
+```
+
+**POST /auth/reset-password — Response:**
+```json
+{
+  "success": true,
+  "message": "Password reset successful. You can now log in."
 }
 ```
 
@@ -392,6 +436,7 @@ All protected routes require: `Authorization: Bearer <token>`
 | GET | `/trigger-roi?secret=<ROI_TRIGGER_SECRET>` | Secret token | Manually trigger ROI cron job |
 
 > **Note:** Protected by `ROI_TRIGGER_SECRET` environment variable. Pass the secret as a query param `?secret=your_secret` or as a header `x-trigger-secret: your_secret`. Available in all environments.
+
 ---
 
 ## Investment Plans
@@ -432,5 +477,8 @@ All protected routes require: `Authorization: Bearer <token>`
 11. **Frontend port** — Vite dev server runs on port 5173. CORS is configured for both port 3000 and 5173.
 12. **bcryptjs version** — Downgraded to v2.4.3 for compatibility with Mongoose v9 async pre-save hooks.
 13. **Express version** — Using v4.19.2 for stability. Express v5 has breaking changes that conflict with standard middleware patterns.
-14. **Maximum investment** — Maximum investment per transaction is ₹1,00,00,000 (1 Crore). Enforced at frontend input, route validation, and database schema level.
+14. **Maximum investment** — Maximum investment per transaction is ₹1,00,00,000 (1 Crore). Enforced at frontend input, route validation, and controller level.
 15. **SPA routing** — `vercel.json` rewrite rules added to handle React Router client-side routing on page refresh.
+16. **Password reset token** — SHA-256 hashed before storing in DB. Raw token sent via email only. Token expires in 1 hour and is invalidated after use.
+17. **Email enumeration prevention** — Forgot password endpoint always returns the same response regardless of whether the email exists.
+18. **Cron recovery** — `recoverMissedExecutions: true` set on node-cron so missed midnight executions are retried on server startup. External keepalive ping via cron-job.org prevents Render free tier cold starts.

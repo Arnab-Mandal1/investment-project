@@ -14,12 +14,8 @@
         "header": [],
         "url": {
           "raw": "{{base_url}}/health",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "health"
-          ]
+          "host": ["{{base_url}}"],
+          "path": ["health"]
         }
       },
       "response": []
@@ -27,29 +23,18 @@
     {
       "name": "Register",
       "request": {
-        "auth": {
-          "type": "noauth"
-        },
+        "auth": { "type": "noauth" },
         "method": "POST",
         "header": [],
         "body": {
           "mode": "raw",
           "raw": "{\r\n  \"fullName\": \"Arnab Mandal\",\r\n  \"email\": \"arnab@gmail.com\",\r\n  \"mobile\": \"9876543210\",\r\n  \"password\": \"MyPass123\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
+          "options": { "raw": { "language": "json" } }
         },
         "url": {
           "raw": "{{base_url}}/auth/register",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "auth",
-            "register"
-          ]
+          "host": ["{{base_url}}"],
+          "path": ["auth", "register"]
         }
       },
       "response": []
@@ -74,29 +59,56 @@
         }
       ],
       "request": {
-        "auth": {
-          "type": "noauth"
-        },
+        "auth": { "type": "noauth" },
         "method": "POST",
         "header": [],
         "body": {
           "mode": "raw",
           "raw": "{\r\n  \"email\": \"arnab@gmail.com\",\r\n  \"password\": \"MyPass123\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
+          "options": { "raw": { "language": "json" } }
         },
         "url": {
           "raw": "{{base_url}}/auth/login",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "auth",
-            "login"
-          ]
+          "host": ["{{base_url}}"],
+          "path": ["auth", "login"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Forgot Password",
+      "request": {
+        "auth": { "type": "noauth" },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"arnab@gmail.com\"\r\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/forgot-password",
+          "host": ["{{base_url}}"],
+          "path": ["auth", "forgot-password"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Reset Password",
+      "request": {
+        "auth": { "type": "noauth" },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"token\": \"paste_token_from_email_here\",\r\n  \"newPassword\": \"NewPass123\"\r\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": {
+          "raw": "{{base_url}}/auth/reset-password",
+          "host": ["{{base_url}}"],
+          "path": ["auth", "reset-password"]
         }
       },
       "response": []
@@ -106,33 +118,19 @@
       "request": {
         "auth": {
           "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{token}}",
-              "type": "string"
-            }
-          ]
+          "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
         },
         "method": "POST",
         "header": [],
         "body": {
           "mode": "raw",
           "raw": "{\r\n  \"amount\": 5000\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
+          "options": { "raw": { "language": "json" } }
         },
         "url": {
           "raw": "{{base_url}}/investments",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "investments"
-          ]
+          "host": ["{{base_url}}"],
+          "path": ["investments"]
         }
       },
       "response": []
@@ -142,24 +140,32 @@
       "request": {
         "auth": {
           "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{token}}",
-              "type": "string"
-            }
-          ]
+          "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
         },
         "method": "GET",
         "header": [],
         "url": {
           "raw": "{{base_url}}/investments",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "investments"
-          ]
+          "host": ["{{base_url}}"],
+          "path": ["investments"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Investment by ID",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/investments/:id",
+          "host": ["{{base_url}}"],
+          "path": ["investments", ":id"],
+          "variable": [{ "key": "id", "value": "paste_investment_id_here" }]
         }
       },
       "response": []
@@ -169,24 +175,14 @@
       "request": {
         "auth": {
           "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{token}}",
-              "type": "string"
-            }
-          ]
+          "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
         },
         "method": "GET",
         "header": [],
         "url": {
           "raw": "{{base_url}}/dashboard",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "dashboard"
-          ]
+          "host": ["{{base_url}}"],
+          "path": ["dashboard"]
         }
       },
       "response": []
@@ -196,25 +192,14 @@
       "request": {
         "auth": {
           "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{token}}",
-              "type": "string"
-            }
-          ]
+          "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
         },
         "method": "GET",
         "header": [],
         "url": {
           "raw": "{{base_url}}/referral/direct",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "referral",
-            "direct"
-          ]
+          "host": ["{{base_url}}"],
+          "path": ["referral", "direct"]
         }
       },
       "response": []
@@ -224,25 +209,28 @@
       "request": {
         "auth": {
           "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{token}}",
-              "type": "string"
-            }
-          ]
+          "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
         },
         "method": "GET",
         "header": [],
         "url": {
           "raw": "{{base_url}}/referral/tree",
-          "host": [
-            "{{base_url}}"
-          ],
-          "path": [
-            "referral",
-            "tree"
-          ]
+          "host": ["{{base_url}}"],
+          "path": ["referral", "tree"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Trigger ROI Manual",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/trigger-roi?secret={{roi_trigger_secret}}",
+          "host": ["{{base_url}}"],
+          "path": ["trigger-roi"],
+          "query": [{ "key": "secret", "value": "{{roi_trigger_secret}}" }]
         }
       },
       "response": []
