@@ -103,8 +103,10 @@ const login = async (req, res, next) => {
 // ─── Forgot Password ──────────────────────────────────────────────────────────
 const forgotPassword = async (req, res) => {
     try {
+        console.log('[FORGOT PASSWORD] Request received for:', req.body.email);
         const { email } = req.body;
         const user = await User.findOne({ email });
+        console.log('[FORGOT PASSWORD] User found:', !!user);
 
         // Always return success even if email not found — prevents email enumeration
         if (!user) {
@@ -121,7 +123,8 @@ const forgotPassword = async (req, res) => {
         await user.save({ validateBeforeSave: false });
 
         // Send email with raw token (never the hash)
-        await sendPasswordResetEmail(user.email, rawToken, user.fullName);
+        await sendPasswordResetEmail(user.email, rawToken, user.fullName)
+        console.log('[FORGOT PASSWORD] Email sent successfully to:', user.email);
 
         return successResponse(res, 200, 'If that email exists, a reset link has been sent.');
     } catch (error) {
