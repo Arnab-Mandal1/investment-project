@@ -1,14 +1,16 @@
-const Brevo = require('@getbrevo/brevo');
+const { TransactionalEmailsApi, SendSmtpEmail, ApiClient } = require('@getbrevo/brevo');
 const env = require('../config/env');
 
-const apiInstance = new Brevo.TransactionalEmailsApi();
-apiInstance.authentications['apiKey'].apiKey = env.BREVO_API_KEY;
+const apiClient = ApiClient.instance;
+apiClient.authentications['api-key'].apiKey = env.BREVO_API_KEY;
+
+const apiInstance = new TransactionalEmailsApi();
 
 const sendPasswordResetEmail = async (toEmail, resetToken, userName) => {
     const resetURL = `${env.FRONTEND_URL}/reset-password?token=${resetToken}`;
 
-    const sendSmtpEmail = new Brevo.SendSmtpEmail();
-    sendSmtpEmail.sender = { name: 'Pro Investment', email: 'b4bd7a001@smtp-brevo.com' };
+    const sendSmtpEmail = new SendSmtpEmail();
+    sendSmtpEmail.sender = { name: 'Pro Investment', email: 'arnabmandal661@gmail.com' };
     sendSmtpEmail.to = [{ email: toEmail, name: userName }];
     sendSmtpEmail.subject = 'Reset Your Password — Pro Investment';
     sendSmtpEmail.htmlContent = `
