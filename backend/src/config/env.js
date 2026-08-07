@@ -16,6 +16,7 @@ const env = {
     CRON_SCHEDULE: process.env.CRON_SCHEDULE || '0 0 * * *',
 
     BREVO_API_KEY: process.env.BREVO_API_KEY || '',
+    FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:5173',
 };
 
 if (env.NODE_ENV === 'production' && !env.JWT_SECRET) {
