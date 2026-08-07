@@ -15,8 +15,7 @@ const env = {
 
     CRON_SCHEDULE: process.env.CRON_SCHEDULE || '0 0 * * *',
 
-    BREVO_USER: process.env.BREVO_USER || '',
-    BREVO_PASS: process.env.BREVO_PASS || '',
+    BREVO_API_KEY: process.env.BREVO_API_KEY || '',
 };
 
 if (env.NODE_ENV === 'production' && !env.JWT_SECRET) {
