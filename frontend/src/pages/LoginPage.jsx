@@ -206,7 +206,11 @@ const LoginPage = () => {
                             )}
                         </button>
                     </form>
-
+                    <div className="text-right">
+                        <Link to="/forgot-password" className="text-xs text-gold hover:text-gold/80 transition-colors">
+                            Forgot password?
+                        </Link>
+                    </div>
                     {/* Divider */}
                     <div className="my-6 flex items-center gap-4">
                         <div className="flex-1 h-px bg-white/5" />

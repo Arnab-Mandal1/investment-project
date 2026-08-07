@@ -9,6 +9,8 @@ import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import InvestmentsPage from './pages/InvestmentsPage';
 import ReferralsPage from './pages/ReferralsPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
 
 // ─── Protected Route ──────────────────────────────────────────────────────────
 // Redirects to login if user is not authenticated
@@ -39,9 +41,16 @@ const AppRoutes = () => {
         <Route path="/login" element={
           <PublicRoute><LoginPage /></PublicRoute>
         } />
-        <Route path="/register" element={
-          <PublicRoute><RegisterPage /></PublicRoute>
-        } />
+
+          <Route path="/register" element={
+              <PublicRoute><RegisterPage /></PublicRoute>
+          } />
+          <Route path="/forgot-password" element={
+              <PublicRoute><ForgotPasswordPage /></PublicRoute>
+          } />
+          <Route path="/reset-password" element={
+              <PublicRoute><ResetPasswordPage /></PublicRoute>
+          } />
 
         {/* Protected routes */}
         <Route path="/dashboard" element={

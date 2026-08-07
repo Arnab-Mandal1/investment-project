@@ -70,4 +70,42 @@ router.post(
     authController.login
 );
 
+// AFTER
+
+// ─── POST /api/auth/forgot-password ──────────────────────────────────────────
+router.post(
+    '/forgot-password',
+    [
+        body('email')
+            .trim()
+            .notEmpty()
+            .withMessage('Email is required')
+            .isEmail()
+            .withMessage('Please provide a valid email address')
+            .normalizeEmail(),
+    ],
+    validate,
+    authController.forgotPassword
+);
+
+// ─── POST /api/auth/reset-password ───────────────────────────────────────────
+router.post(
+    '/reset-password',
+    [
+        body('token')
+            .notEmpty()
+            .withMessage('Reset token is required'),
+
+        body('newPassword')
+            .notEmpty()
+            .withMessage('New password is required')
+            .isLength({ min: 8 })
+            .withMessage('Password must be at least 8 characters')
+            .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
+            .withMessage('Password must contain at least one uppercase letter, one lowercase letter, and one number'),
+    ],
+    validate,
+    authController.resetPassword
+);
+
 module.exports = router;
