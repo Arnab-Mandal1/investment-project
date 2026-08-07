@@ -1,13 +1,20 @@
-const { Resend } = require('resend');
+const nodemailer = require('nodemailer');
 const env = require('../config/env');
 
-const resend = new Resend(env.RESEND_API_KEY);
+const transporter = nodemailer.createTransport({
+    host: 'smtp-relay.brevo.com',
+    port: 587,
+    auth: {
+        user: env.BREVO_USER,
+        pass: env.BREVO_PASS,
+    },
+});
 
 const sendPasswordResetEmail = async (toEmail, resetToken, userName) => {
     const resetURL = `${env.FRONTEND_URL}/reset-password?token=${resetToken}`;
 
-    await resend.emails.send({
-        from: 'Pro Investment <onboarding@resend.dev>',
+    await transporter.sendMail({
+        from: '"Pro Investment" <b4bd7a001@smtp-brevo.com>',
         to: toEmail,
         subject: 'Reset Your Password — Pro Investment',
         html: `
